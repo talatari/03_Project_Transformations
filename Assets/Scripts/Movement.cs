@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SphereMovement : MonoBehaviour
+public class Movement : MonoBehaviour
 {
     [SerializeField] private float _distanceTarget = 5f;
     [SerializeField] private float _moveSpeed = 10f;
@@ -22,9 +22,8 @@ public class SphereMovement : MonoBehaviour
         {
             while (transform.position.z != _distanceTarget)
             {
-                Vector3 target = new Vector3(transform.position.x, transform.position.y, _distanceTarget);
-                transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * _moveSpeed);
-                
+                Vector3 targetPoint = new Vector3(transform.position.x, transform.position.y, _distanceTarget);
+                transform.position = Vector3.MoveTowards(transform.position, targetPoint, Time.deltaTime * _moveSpeed);
                 yield return null;
             }
 
