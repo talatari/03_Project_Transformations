@@ -1,46 +1,34 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class SphereMovement : MonoBehaviour, IPointerClickHandler
+public class SphereMovement : MonoBehaviour
 {
-    [SerializeField, Range(0, 5)] private float _distanceTarget = 5f;
-    [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private float _distanceTarget = 5f;
+    [SerializeField] private float _moveSpeed = 10f;
 
-    private float _offset = 0.1f;
-    private bool _isForward = true;
-
-    public void OnPointerClick(PointerEventData eventData)
+    private void Start()
     {
-        print(eventData);
-        StartCoroutine(MovementDelay());
+        StartCoroutine(Move());
     }
 
     private void OnDisable()
     {
-        StopCoroutine(MovementDelay());
+        StopCoroutine(Move());
     }
 
-    private IEnumerator MovementDelay()
+    private IEnumerator Move()
     {
         while (true)
         {
-            var waitForSeconds = new WaitForSeconds(0.01f);
-            
-            if (_isForward)
-                if (transform.position.z <= _distanceTarget)
-                    transform.position += new Vector3(0, 0, _offset);
-                else
-                    _isForward = false;
-            else
-            if (transform.position.z >= _distanceTarget * -1)
-                transform.position -= new Vector3(0, 0, _offset);
-            else
-                _isForward = true;
-            
-            yield return waitForSeconds;
+            while (transform.position.z != _distanceTarget)
+            {
+                Vector3 target = new Vector3(transform.position.x, transform.position.y, _distanceTarget);
+                transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * _moveSpeed);
+                
+                yield return null;
+            }
+
+            _distanceTarget *= -1;
         }
     }
-    
-    
 }
