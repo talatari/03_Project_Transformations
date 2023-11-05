@@ -30,17 +30,25 @@ public class Scaling : MonoBehaviour
             {
                 transform.localScale += _offsetScale * Time.deltaTime;
 
-                transform.position = new Vector3(transform.position.x, transform.localScale.y * _offsetPosition, transform.position.z);
+                Vector3 position = transform.position;
                 
+                position = new Vector3(position.x, transform.localScale.y * _offsetPosition, position.z);
+                
+                transform.position = position;
+
                 yield return null;
             }
             
             while (transform.localScale.x >= _startScale.x)
             {
                 transform.localScale -= _offsetScale * Time.deltaTime;
+
+                Vector3 position = transform.position;
+               
+                position = new Vector3(position.x, transform.localScale.y * _offsetPosition, position.z);
                 
-                transform.position = new Vector3(transform.position.x, transform.localScale.y * _offsetPosition, transform.position.z);
-                
+                transform.position = position;
+
                 yield return null;
             }
         }
