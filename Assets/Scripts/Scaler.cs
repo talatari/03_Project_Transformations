@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Scaling : MonoBehaviour
+public class Scaler : MonoBehaviour
 {
     [SerializeField] private float _maxScale = 3f;
     [SerializeField] private float _offsetPosition;
@@ -28,29 +28,35 @@ public class Scaling : MonoBehaviour
         {
             while (transform.localScale.x <= _maxScale)
             {
-                transform.localScale += _offsetScale * Time.deltaTime;
-
-                Vector3 position = transform.position;
-                
-                position = new Vector3(position.x, transform.localScale.y * _offsetPosition, position.z);
-                
-                transform.position = position;
+                ModifyPositionScale('+');
 
                 yield return null;
             }
             
             while (transform.localScale.x >= _startScale.x)
             {
-                transform.localScale -= _offsetScale * Time.deltaTime;
-
-                Vector3 position = transform.position;
-               
-                position = new Vector3(position.x, transform.localScale.y * _offsetPosition, position.z);
-                
-                transform.position = position;
+                ModifyPositionScale('-');
 
                 yield return null;
             }
         }
+    }
+
+    private void ModifyPositionScale(char operand)
+    {
+        if (operand == '+')
+        {
+            transform.localScale += _offsetScale * Time.deltaTime;
+        }
+        else
+        {
+            transform.localScale -= _offsetScale * Time.deltaTime;
+        }
+
+        Vector3 position = transform.position;
+
+        position = new Vector3(position.x, transform.localScale.y * _offsetPosition, position.z);
+
+        transform.position = position;
     }
 }
