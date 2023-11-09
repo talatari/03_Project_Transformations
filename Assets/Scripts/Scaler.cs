@@ -8,50 +8,41 @@ public class Scaler : MonoBehaviour
 
     private Vector3 _offsetScale;
     private Vector3 _startScale;
+    private Coroutine _coroutineScale;
     
     private void Start()
     {
         _startScale = transform.localScale;
         _offsetScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
         
-        StartCoroutine(Scale());
+        _coroutineScale = StartCoroutine(Scale());
     }
 
-    private void OnDisable()
-    {
-        StopCoroutine(Scale());
-    }
-    
+    private void OnDisable() => StopCoroutine(_coroutineScale);
+
     private IEnumerator Scale()
     {
         while (true)
         {
             while (transform.localScale.x <= _maxScale)
             {
-                ModifyPositionScale('+');
+                ModifyPositionScale(_offsetScale);
 
                 yield return null;
             }
             
             while (transform.localScale.x >= _startScale.x)
             {
-                ModifyPositionScale('-');
+                ModifyPositionScale(_offsetScale * -1);
 
                 yield return null;
             }
         }
     }
 
-    private void ModifyPositionScale(char operand)
+    private void ModifyPositionScale(Vector3 offsetScale)
     {
-        if (operand == '+')
-        {
-            transform.localScale += _offsetScale * Time.deltaTime;
-        }
-        else
-        {
-            transform.localScale -= _offsetScale * Time.deltaTime;
-        }
+        transform.localScale += offsetScale * Time.deltaTime;
 
         Vector3 position = transform.position;
 
