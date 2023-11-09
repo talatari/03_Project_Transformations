@@ -1,25 +1,22 @@
 using System.Collections;
 using UnityEngine;
 
-public class Rotation : MonoBehaviour
+public class Rotator : MonoBehaviour
 {
     [SerializeField] private float _moveRotate = 200f;
     
-    private void Start()
-    {
-        StartCoroutine(Rotate());
-    }
-
-    private void OnDisable()
-    {
-        StopCoroutine(Rotate());
-    }
+    private Coroutine _coroutineRotate;
     
+    private void Start() => _coroutineRotate = StartCoroutine(Rotate());
+
+    private void OnDisable() => StopCoroutine(_coroutineRotate);
+
     private IEnumerator Rotate()
     {
         while (true)
         {
             transform.Rotate(Vector3.up, Time.deltaTime * _moveRotate);
+            
             yield return null;
         }
     }
