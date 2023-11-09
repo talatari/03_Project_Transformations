@@ -45,7 +45,6 @@ public class Scaler : MonoBehaviour
         transform.localScale += offsetScale * Time.deltaTime;
 
         Vector3 position = transform.position;
-
         position = new Vector3(position.x, transform.localScale.y * _offsetPosition, position.z);
 
         transform.position = position;
