@@ -13,12 +13,17 @@ public class Scaler : MonoBehaviour
     private void Start()
     {
         _startScale = transform.localScale;
-        _offsetScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        
-        _coroutineScale = StartCoroutine(Scale());
+        _offsetScale = new Vector3(_startScale.x, _startScale.y, _startScale.z);
     }
 
-    private void OnDisable() => StopCoroutine(_coroutineScale);
+    private void OnEnable() => 
+        _coroutineScale = StartCoroutine(Scale());
+
+    private void OnDisable()
+    {
+        if (_coroutineScale is not null)
+            StopCoroutine(_coroutineScale);
+    }
 
     private IEnumerator Scale()
     {
@@ -45,7 +50,7 @@ public class Scaler : MonoBehaviour
         transform.localScale += offsetScale * Time.deltaTime;
 
         Vector3 position = transform.position;
-        position = new Vector3(position.x, transform.localScale.y * _offsetPosition, position.z);
+        position = new Vector3(position.x, _startScale.y * _offsetPosition, position.z);
 
         transform.position = position;
     }

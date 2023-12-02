@@ -6,10 +6,17 @@ public class Rotator : MonoBehaviour
     [SerializeField] private float _moveRotate = 200f;
     
     private Coroutine _coroutineRotate;
-    
-    private void Start() => _coroutineRotate = StartCoroutine(Rotate());
 
-    private void OnDisable() => StopCoroutine(_coroutineRotate);
+    private void OnEnable()
+    {
+        _coroutineRotate = StartCoroutine(Rotate());
+    }
+
+    private void OnDisable()
+    {
+        if (_coroutineRotate is not null)
+            StopCoroutine(_coroutineRotate);
+    }
 
     private IEnumerator Rotate()
     {
