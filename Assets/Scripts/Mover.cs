@@ -9,14 +9,17 @@ public class Mover : MonoBehaviour
     private Vector3 _startPosition;
     private Coroutine _coroutineMove;
     
-    private void Start()
-    {
+    private void Start() => 
         _startPosition = transform.position;
-        
-        _coroutineMove = StartCoroutine(Move());
-    }
 
-    private void OnDisable() => StopCoroutine(_coroutineMove);
+    private void OnEnable() => 
+        _coroutineMove = StartCoroutine(Move());
+
+    private void OnDisable()
+    {
+        if (_coroutineMove is not null)
+            StopCoroutine(_coroutineMove);
+    }
 
     private IEnumerator Move()
     {

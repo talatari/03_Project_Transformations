@@ -5,9 +5,14 @@ public class MoverCube : MonoBehaviour
 {
     private Coroutine _coroutineCube;
     
-    private void Start() => _coroutineCube = StartCoroutine(MoveCube());
+    private void OnEnable() => 
+        _coroutineCube = StartCoroutine(MoveCube());
 
-    private void OnDisable() => StopCoroutine(_coroutineCube);
+    private void OnDisable()
+    {
+        if (_coroutineCube is not null)
+            StopCoroutine(_coroutineCube);
+    }
 
     private IEnumerator MoveCube()
     {
