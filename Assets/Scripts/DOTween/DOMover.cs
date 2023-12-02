@@ -3,13 +3,14 @@ using DG.Tweening;
 
 public class DOMover : MonoBehaviour
 {
+    [SerializeField] private Vector3 _distance;
+    
     private void Start()
     {
-        float _distance = 5f;
-        float _moveTime = 3;
+        float moveTime = 3;
         Vector3 position = transform.position;
-        Vector3 target = new Vector3(position.x, position.y, position.z + _distance);
+        Vector3 target = position + _distance;
         
-        transform.DOMove(target, _moveTime).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+        transform.DOMove(target, moveTime).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
     }
 }
