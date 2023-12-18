@@ -21,7 +21,7 @@ public class Scaler : MonoBehaviour
 
     private void OnDisable()
     {
-        if (_coroutineScale is not null)
+        if (_coroutineScale != null)
             StopCoroutine(_coroutineScale);
     }
 
@@ -32,14 +32,12 @@ public class Scaler : MonoBehaviour
             while (transform.localScale.x <= _maxScale)
             {
                 ModifyPositionScale(_offsetScale);
-
                 yield return null;
             }
             
             while (transform.localScale.x >= _startScale.x)
             {
                 ModifyPositionScale(_offsetScale * -1);
-
                 yield return null;
             }
         }
